@@ -1,62 +1,91 @@
-# Ivna News Mobile App (ایونا نیوز) - Landing Page
+# Ivna News (ایونا نیوز) — Mobile Application & Intelligent Media Architecture
 
-Welcome to the landing page of the **Ivna News** mobile application! 
+**Cross-platform, offline-first news reader and media publishing client powered by automated RSS ingestion, AI summarization pipelines, and clean Persian typography.**
 
-> 🔒 **Codebase Visibility Note**
-> The source code of this application is maintained in a **private repository** for proprietary, security, and commercial compliance reasons. This repository serves as a public information desk, documentation center, and feedback tracker for users, testers, and reviewers.
+*Part of the [Molavi AI Engineering Ecosystem](https://github.com/tmolavi/geo-scope/blob/main/docs/GITHUB_ECOSYSTEM.md) — by [Taghi Molavi](https://molavi.pro)*
 
----
-
-## 📝 About the Application
-
-**Ivna News (ایونا نیوز)** is a modern, cross-platform mobile application designed as an offline-first, high-performance RSS news reader. The app provides swift, smooth, and reliable access to news feeds from the official Iranian news channels. It is fully licensed under the Ministry of Culture and Islamic Guidance.
-
-### Key Highlights:
-* **Offline Reading:** Instantly caches feed items into a local SQLite database, allowing users to browse news headlines and content even when offline.
-* **Smart News Syncing:** Multi-domain fallback system that automatically parses, cleans, and merges RSS feeds from primary and fallback web endpoints.
-* **Background Tasks:** Synchronizes news stories in the background to ensure users always open the app to fresh content.
-* **Local Notifications:** Warns users of breaking news through customized local notifications.
-* **Persian Typography:** Specially tailored user interface using the `Vazirmatn` font family and standard navy/red thematic styles.
+[![Flutter](https://img.shields.io/badge/Flutter-3.x%20%7C%20Dart-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![Ecosystem](https://img.shields.io/badge/Ecosystem-Architecture%20Map-blueviolet)](https://github.com/tmolavi/geo-scope/blob/main/docs/GITHUB_ECOSYSTEM.md)
+[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-green)](https://cafebazaar.ir/app/com.ivnanews.ivna_news_app)
 
 ---
 
-## 🛠️ Technology Stack & Dependencies
+## 1. What It Is
 
-The application is built on top of modern mobile technologies to guarantee performance and responsiveness:
-
-* **Framework:** Google Flutter SDK (Dart)
-* **Local Storage & Cache:** SQLite (`sqflite`), `shared_preferences`
-* **Network & Services:** `http` client, `xml` parser, `connectivity_plus`
-* **Native Bridges:** `url_launcher` (external calling/browsing), `share_plus` (native sharing)
-* **Background Worker:** `workmanager` for scheduled background synchronizations
-* **Alert System:** `flutter_local_notifications`
+**Ivna News (ایونا نیوز)** is a production cross-platform mobile application engineered as an offline-first, high-throughput news reader and media client. It connects users to official news channels through automated multi-domain RSS ingest pipelines, local SQLite caching, and integrated AI summarization layers.
 
 ---
 
-## 📥 How to Download & Test
+## 2. The Problem
 
-We are excited for you to try out the app and give us your valuable feedback! You can download and install the app using the following links:
+Modern digital media consumers face network instability, content clutter, and fragmented publishing streams:
+- **Network Degradation**: Intermittent mobile connectivity interrupts content access.
+- **Feed Inconsistency**: RSS feeds often suffer from domain outages, malformed XML, and unstandardized media enclosures.
+- **Reading Fatigue**: Long-form press releases require concise, structured bullet summaries for rapid decision-making.
 
-### 🇮🇷 Download from Cafe Bazaar:
-👉 **[Ivna News on Cafe Bazaar](https://cafebazaar.ir/app/com.ivnanews.ivna_news_app)**
-
-### 🤖 Download from Google Play Store:
-* **Status:** *Currently under review.* The direct Google Play link will be updated here as soon as the pending publication is approved.
-
----
-
-## 💬 Feedback & Bug Reports
-
-We highly appreciate your reviews, feedback, and bug reports! 
-* If you have downloaded the app and found an issue, or if you want to request a feature, please feel free to **[Open a GitHub Issue](https://github.com/tmolavi/ivna-app/issues)** on this repository.
-* You can also leave your comments and ratings directly on our **Cafe Bazaar** listing page.
+Ivna News addresses these challenges through client-side offline storage, multi-domain failover routing, and automated AI summary integration via [`laravel-ai-summary`](https://github.com/tmolavi/laravel-ai-summary).
 
 ---
 
-## 🔗 Official Websites & Credits
+## 3. Key Features
 
-This mobile ecosystem is officially connected to and powered by:
-* **Official Website:** [negaheiraniannews.ir](https://negaheiraniannews.ir)
-* **Alternative Domain:** [ivnanews.com](https://ivnanews.com)
-* **License Holder & Editor-in-Chief:** Dr. Mehdi Karimi Tafarshi (دکتر مهدی کریمی تفرشی)
-* **Publisher:** Negahe Iranian News Agency (پایگاه خبری نگاه ایرانیان نیوز - ایونا)
+* **Offline-First Storage**: Local SQLite caching (`sqflite`) preserves full article content and metadata for offline browsing.
+* **Smart Feed Ingestion & Failover**: Multi-domain sync engine parses, normalizes, and deduplicates RSS streams across primary and fallback endpoints.
+* **AI Summary Integration**: Interfaces with backend summarization pipelines to present executive bullet points.
+* **Background Synchronization**: Headless sync workers (`workmanager`) keep local feeds fresh.
+* **Tailored Persian Typography**: Polished UI built around the `Vazirmatn` typeface with adaptive dark mode.
+
+---
+
+## 4. Architecture & Data Flow
+
+```mermaid
+flowchart TD
+    RSS["Official News Feeds / CMS"] --> Ingest["Ingestion & XML Parser"]
+    Ingest --> Backend["Laravel Backend / laravel-ai-summary"]
+    Backend -->|Sync JSON API / RSS| MobileApp["Ivna Flutter Mobile App"]
+    
+    MobileApp --> Cache["SQLite Local Database (sqflite)"]
+    Cache --> UI["Flutter UI Layer (Vazirmatn Typography)"]
+    
+    OfflineCheck{"Network State"} -->|Online| Sync["Background Sync Worker"]
+    OfflineCheck -->|Offline| OfflineRead["Render from Local SQLite"]
+    
+    Sync --> Cache
+    OfflineRead --> UI
+```
+
+---
+
+## 5. Technology Stack
+
+* **Framework**: Google Flutter SDK (Dart 3)
+* **Local Persistence**: `sqflite`, `shared_preferences`
+* **Networking & Parsing**: `http`, `xml`, `connectivity_plus`
+* **Background Tasks**: `workmanager`
+* **Notifications**: `flutter_local_notifications`
+
+---
+
+## 6. Download & Installation
+
+### 🇮🇷 Cafe Bazaar (Android):
+👉 **[Download Ivna News on Cafe Bazaar](https://cafebazaar.ir/app/com.ivnanews.ivna_news_app)**
+
+---
+
+## 7. Related Projects
+
+Part of the **Molavi AI Engineering Ecosystem**:
+
+* [**laravel-ai-summary**](https://github.com/tmolavi/laravel-ai-summary): Backend AI summarization engine powering rapid content ingestion.
+* [**geo-aeo-news-engine**](https://github.com/tmolavi/geo-aeo-news-engine): Autonomous news rewriting and digital PR GEO optimization engine.
+* [**GEO-Scope**](https://github.com/tmolavi/geo-scope): Multi-model AI visibility benchmark engine.
+* [**Ecosystem Map**](https://github.com/tmolavi/geo-scope/blob/main/docs/GITHUB_ECOSYSTEM.md): Complete architecture and evidence flow.
+
+---
+
+## 8. Author & Official Credits
+
+* **Architecture & Development**: [Taghi Molavi](https://molavi.pro)
+* **Publisher & License Holder**: Negahe Iranian News Agency (پایگاه خبری نگاه ایرانیان نیوز - ایونا) — Dr. Mehdi Karimi Tafarshi
